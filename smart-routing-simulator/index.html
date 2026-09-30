@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart routing simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head><body><main>
+<h1>Smart routing simulator</h1>
+<p class="lead">Drag routers to rearrange them, click a link to fail it, then send traffic. With the smart metric, routes steer around congested links.</p>
+<div class="wrap">
+<section class="card">
+<div class="ctl">
+<label>From<select id="src"></select></label>
+<label>To<select id="dst"></select></label>
+<label>Algorithm<select id="alg"><option value="dj">Dijkstra (link-state)</option><option value="bf">Bellman-Ford (distance-vector)</option></select></label>
+<label>Metric<select id="met"><option value="hops">Hop count</option><option value="delay">Delay</option><option value="smart" selected>Smart (delay + congestion)</option></select></label>
+</div>
+<div class="ctl">
+<label>Flow size (Mbps)<input id="flow" type="number" min="1" max="100" value="20"></label>
+<button class="p" id="send">Send flow</button>
+<button id="rl">Clear traffic</button>
+<button id="rk">Restore links</button>
+</div>
+<svg id="svg" viewBox="0 0 740 420" role="img" aria-label="Network topology with eight routers"></svg>
+<div class="key"><span><i style="background:var(--mute)"></i>light load</span><span><i style="background:var(--amber)"></i>above 40%</span><span><i style="background:var(--red)"></i>above 75%</span><span><i style="background:var(--teal);opacity:.4;height:8px"></i>chosen path</span><span>dashed red = failed</span></div>
+<p class="msg" id="msg" aria-live="polite"></p>
+</section>
+<div class="stack">
+<section class="card"><h2>Chosen route</h2><div class="big" id="route"></div><div id="sum" class="msg"></div></section>
+<section class="card"><h2>Same pair, each metric</h2><div class="scroll"><table id="cmp"></table></div></section>
+<section class="card"><h2>Routing table for the source</h2><div class="scroll"><table id="tbl"></table></div></section>
+<section class="card"><h2 id="lt">Algorithm steps</h2><ol id="log"></ol></section>
+</div></div>
+<script src="script.js"></script>
+</main></body></html>
